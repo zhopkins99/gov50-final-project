@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data that measures climate change awareness in African American communities. 
+For my final project, I will be looking at data on the Marshall Project to better understand the relationship between incarceration, race, and political ideology. The dataset I intend to borrow from surveyed over 8,000 incarcerated Americans on their political beliefs, using a set of fifteen questions related to policy issues in the United States. I am interested in learning how responses to these questions—specifically questions related to incarceration policy—vary according to race. Given the reality that Black and Latinx people are more likely to be incarcerated, my current hypothesis is that their responses will more likely reflect towards an anti-incarceration politic than their white counterparts. 
