@@ -11,4 +11,22 @@ output:
 
 ## Project thoughts
 
-For my final project, I will be looking at data on the Marshall Project to better understand the relationship between incarceration, race, and political ideology. The dataset I intend to borrow from surveyed over 8,000 incarcerated Americans on their political beliefs, using a set of fifteen questions related to policy issues in the United States. I am interested in learning how responses to these questions—specifically questions related to incarceration policy—vary according to race. Given the reality that Black and Latinx people are more likely to be incarcerated, my current hypothesis is that their responses will more likely reflect towards an anti-incarceration politic than their white counterparts. 
+My proposed project will use afrobarometer look at the correlation between military and police presence and outlook on the state of respondent's the country, and their outlook on their own condition. I will compare the UN's five geographical regions: North, East, West, Middle and Southern Africa. I am interested in how this question varies by region: i.e. which region thinks of itself as headed in "the best" direction, and how police and military presence plays into this. My hypothesis is that the regions with the most police and military presence think that they are headed in worse directions, given that heightened military presence often suggests the presence of conflict. 
+
+## Data Visualization 
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+library(ggplot2)
+
+afro|>
+  ggplot(mapping=aes(x=COUNTRY.BY.REGION))+
+  geom_histogram()
+```
+
