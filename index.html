@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min 2.js","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min 2.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2 2.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.16/header-attrs 2.js","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0 2.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min 2.js","index_files/jquery-3.6.0/jquery-3.6.0.min 2.map","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min 2.js","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy 2.css","index_files/tippy-6.2.7/tippy-bundle.umd.min 2.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border 2.css","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min 2.js","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents 2.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1518,7 +1518,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>For my final project, I will be looking at data on the Marshall Project to better understand the relationship between incarceration, race, and political ideology. The dataset I intend to borrow from surveyed over 8,000 incarcerated Americans on their political beliefs, using a set of fifteen questions related to policy issues in the United States. I am interested in learning how responses to these questions—specifically questions related to incarceration policy—vary according to race. Given the reality that Black and Latinx people are more likely to be incarcerated, my current hypothesis is that their responses will more likely reflect towards an anti-incarceration politic than their white counterparts.</p>
+<p>My proposed project will use afrobarometer look at the correlation between military and police presence and outlook on the state of respondent’s the country, and their outlook on their own condition. I will compare the UN’s five geographical regions: North, East, West, Middle and Southern Africa. I am interested in how this question varies by region: i.e. which region thinks of itself as headed in “the best” direction, and how police and military presence plays into this. My hypothesis is that the regions with the most police and military presence think that they are headed in worse directions, given that heightened military presence often suggests the presence of conflict.</p>
+<h2 id="data-visualization">Data Visualization</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/load.html'>load</a></span><span class='op'>(</span><span class='st'>"afrobarometer2016.RData"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>afro</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>COUNTRY.BY.REGION</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
