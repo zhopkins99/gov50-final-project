@@ -9,14 +9,21 @@ output:
 
 
 
-## Project thoughts
+## Intrduction
 
-My proposed project will use afrobarometer look at the correlation between military and police presence and outlook on the state of respondent's the country, and their outlook on their own condition. I will compare the UN's five geographical regions: North, East, West, Middle and Southern Africa. I am interested in how this question varies by region: i.e. which region thinks of itself as headed in "the best" direction, and how police and military presence plays into this. My hypothesis is that the regions with the most police and military presence think that they are headed in worse directions, given that heightened military presence often suggests the presence of conflict. 
+My proposed project will use the dataset "afrobarometer" to look at the correlation between police presence regions in Africa and sentiments about safety in these regions. I will compare the UN's five geographical regions: North, East, West, Middle and Southern Africa. In other words, I am interested in how aggregate responses to afrobarometer's main question about safety: "how often do you feel unsafe in your neighborhood" varies by region, and whether or not the aggregate police presence correlates with these responses. I'm interested in this question because it tells us how people are responding to the global phenomenon of over-policing——and in particular, how this response takes shape on a continent that is often (and prejudicially) perceived as unsafe. 
+
+My hypothesis is that in regions with the highest police presence, people will feel more safe in their neighborhoods. 
 
 ## Data Visualization 
+Afrobarometer is a data hub that takes yearly surveys of Africans' political and social opinions. This cross sectional study collects data from individual countries, as well as "merged" data that takes stock of the whole continent, which it categorizes into five regions based on the UN's standards. The most recent Afrobarometer data was built through a survey of 53,935 Africans across all five regions. The data is also organized by the province or region that the respondent is from. 
+
+Much of the data here is measured in binary output, with 0 and 1 constituting the factual absence and presence of a things like sewage, electricity, or police stations in a given province or region. The survey questions, which prompt subjective reflections from respondents, have more than two values represented in their output (often on a scale from 0 to 5). 
+
+My two independent variables are the region that a respondent is from and whether or not they live near in a locality with a police station (EA_FAC_C), which has a binary output. My dependent variable is their response to the question "How often have you felt unsafe in your neighborhood" (Q10A), in which recipients could rank their responses from 0 (never felt unsafe) to 4 (always feel unsafe).
+
 ```{r}
 library(tidyverse)
-
 ```
 
 ```{r}
@@ -24,9 +31,68 @@ library(ggplot2)
 load("afrobarometer2016.RData")
 ```
 
+
+
+```{r}
+afro <- afro|> 
+  filter(Q10A==c(0, 1, 2, 3, 4))
+
+afro|>
+  group_by(COUNTRY.BY.REGION)|>
+  summarize(mean_unsafe=mean(Q10A, na.rm=TRUE))|>
+  ggplot(mapping=aes(x=COUNTRY.BY.REGION, y=mean_unsafe))+
+  geom_col()+
+  labs(x="Region", y="Average feeling about unsafety", title="Region vs. unsafety")
+```
+
+
 ```{r}
 afro|>
-  ggplot(mapping=aes(x=COUNTRY.BY.REGION))+
-  geom_histogram()
+  group_by(COUNTRY.BY.REGION)|>
+  summarize(mean_police=mean(EA_FAC_C, na.rm=TRUE))|>
+  ggplot(mapping=aes(x=COUNTRY.BY.REGION, y=mean_police))+
+  geom_col()+
+  labs(x="Region", y="Police presence", title="Average police presence by region")
 ```
-test
+
+
+```{r}
+police_by_region <- afro|>
+  group_by(COUNTRY.BY.REGION)|>
+  summarize(mean_police=mean(EA_FAC_C, na.rm=TRUE))
+
+safety_by_region <- afro|>
+  group_by(COUNTRY.BY.REGION)|>
+  summarize(mean_unsafe=mean(Q10A, na.rm=TRUE))
+
+police_vs_safety <- police_by_region|>
+  left_join(safety_by_region)
+
+police_vs_safety
+
+```
+
+
+
+
+
+```{r}
+model_1 <- lm(Q10A ~ EA_FAC_C + as.factor(COUNTRY.BY.REGION),data=afro)
+summary(model_1)
+```
+```{r}
+
+library(modelsummary)
+modelsummary(model_1,
+             estimate=c("{estimate}{stars}"),
+             gof_omit=c("IC|Lik.|RMSE"))
+
+##Estimate tells you the beta coefficient (estimate from model of slope), stars tells you the p value
+```
+##Conclusion
+It is difficult to determine a correlation between regional police presence and regional feelings about neighborhood safety from my two bar plots “Region vs. unsafety” and “Region vs. police presence” (which are also visualized in my 5x3 tibble "police vs. safety”). In the region with the lowest police presence (region 2), people felt the least unsafe. However, in the region with the highest police presence (region 4), feelings about safety fell squarely in the middle of the mean_unsafe outcomes. Thus, it is difficult to conclude whether my hypothesis was right or wrong. 
+
+Additionally, there is not much variation between regions in terms of either question. For all regions mean_unsafe was between 0 and 1, suggesting that people generally feel quite safe in their neighborhoods. Likewise, the values for mean_police are relatively close, with all of them falling between 0.3 and 0.6. However, since mean police was measured between 0 and 1, we know that there is more standard deviation between outcomes here. This assertion is confirmed in my multiple regression, where the adjusted R squared is very low (0.012). 
+
+Finally, the very low p value in my regression table tells us that these results are in fact statically significant. That being said, it is still difficult to make statistical inferences around these results: police presence is not randomly assigned, while the survey itself is random. Additionally, my data section could be improved with the use of something like a logistic regression, which is better for the binary outcomes that we saw in question EA_FAC_C (police presence). 
+
